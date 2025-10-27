@@ -14,9 +14,22 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.get("/", (req, res) => {
-//   res.send("hello world! O projeto do backend está rodando com sucesso");
-// });
+app.patch("/atualizar/:id", (req, res) => {
+  Produtos.update(
+    {
+      nome: req.body.nome,
+      preco: req.body.preco,
+      descricao: req.body.descricao,
+    },
+    { where: { id: req.params.id } }
+  )
+    .then(() => {
+      res.send("Produto atualizado com sucesso");
+    })
+    .catch((error) => {
+      res.send("Deu algo de errado" + error);
+    });
+});
 
 app.post("/cadastro", (req, res) => {
   Produtos.create({
@@ -30,6 +43,14 @@ app.post("/cadastro", (req, res) => {
     .catch((error) => {
       res.send("Infelismente deu erro, tente outra vez!" + error);
     });
+});
+
+app.delete("/:id", (req, res) => {
+  Produtos.destroy({ where: { id: req.params.id } })
+    .then(() => {
+      res.send("Produto deletado com sucesso!");
+    })
+    .catch((error) => res.send("Deu algo errado"));
 });
 
 app.get("/", (req, res) => {
