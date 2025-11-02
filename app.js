@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const PORT = process.env.PORT || 8081;
 
 const Produtos = require("./models/Produtos.js");
 const User = require("./models/Users.js");
@@ -124,6 +125,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.listen(8081, () => {
-  console.log("hello world");
+app.listen(PORT, () => {
+  console.log("o servidor está rodando na porta" + PORT);
 });
